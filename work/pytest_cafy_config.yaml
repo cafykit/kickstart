@@ -1,0 +1,11 @@
+email:
+  cc: cafy-infra@cisco.com
+  from: cafy-infra@cisco.com
+  domain: cisco.com
+  via:
+     type: smtp
+     port: 25
+     server: mail.cisco.com
+web:
+  server: allure.cisco.com
+  web_path: / 
