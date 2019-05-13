@@ -1,0 +1,134 @@
+{
+  "parameters" : {
+    "count" : 7
+  },
+  "Topology": {
+      "Nodes": {
+          "R1": {
+              "alias": "UUT1",
+              "platform": "NCS5508",
+              "os": "cisco_iosxr"
+          },
+          "P1": {
+              "alias": "PEER1",
+              "platform": "NCS5508",
+              "os": "cisco_iosxr"
+          },
+          "T1": {
+              "alias": "TGEN",
+              "platform": "SPIRENT"
+          }
+      },
+      "Links": {
+          "R1_T1_1": {
+              "devices": [
+                  "R1",
+                  "T1"
+              ],
+              "bandwidth": "10G",
+              "alias": "UUT1_PEER1_intf1"
+          },
+          "R1_T1_2": {
+              "devices": [
+                  "R1",
+                  "T1"
+              ],
+              "bandwidth": "10G",
+              "alias": "UUT1_PEER1_intf2"
+          },
+          "R1_P1_76": {
+              "devices": [
+                  "R1",
+                  "P1"
+              ],
+              "bandwidth": "40G",
+              "alias": "UUT1_PEER1_intf3"
+          },
+          "R1_P1_77": {
+              "devices": [
+                  "R1",
+                  "P1"
+              ],
+              "bandwidth": "40G",
+              "alias": "UUT1_PEER1_intf4"
+          }
+      }
+    },
+  "TestArguments": {
+    "interface_configuration" : {
+      "Bundle-Ether81.R1" : {
+        "members": [],
+        "id": 81,
+        "vlans" : {
+           "${id=range(5,10,1)}": {
+              "group" : ["g1", "g2","vlang_${id}"],
+              "ipv4_address": {
+                  "start": "5.10.11.12",
+                  "step": 10
+              },
+              "ipv4_prefix_length": 24,
+              "ipv6_address": {
+                  "start": "7677::1",
+                  "step": 20000
+              },
+              "ipv6_prefix_length": 64
+
+           }
+        }
+
+      },
+      "Bundle-Ether801.R1" : {
+        "members": [],
+        "id": 81,
+        "vlans" : {
+           "${id=range(5,10,1)}": {
+              "group" : ["g3", "g4","vlang_${id}"],
+              "ipv4_address": {
+                  "start": "5.10.11.13",
+                  "step": 10
+              },
+              "ipv4_prefix_length": 24,
+              "ipv6_address": {
+                  "start": "8677::1",
+                  "step": 20000
+              },
+              "ipv6_prefix_length": 64
+
+           }
+        }
+
+      }
+    },
+    "feature_configuration": {
+      "vrfs" : {
+        "vrf_${num=range(5,10,1)}": {
+          "current" : "${num}_with_${count}",
+          "translate" : "${num+10}",
+          "name" : "my_vrf_${num*num+1000}_t",
+          "xlayer" : {
+            "data_${xid=range(35,40,1)}": {
+              "hello": "world_${num}",
+              "data": [
+                "hello_${xid}"
+              ]
+            }
+          }
+        }
+      },
+      "ospf" : {
+        "R1" : {
+          "${id=$group('g1')}": {
+            "test": "${id}"
+          },
+          "vrf" : {
+            "vrf_ospf_${id=range(5,10)}": {
+              "router_id": "Loopback${id - 989}",
+              "redistribute_connected": true,
+              "interface_list": "$group('vlang_${id}')"
+            }
+          }
+        }
+      }
+    }
+  }
+}
