@@ -9,33 +9,58 @@ class Test:
 
 class TestTopology:
     def test_get_devices(self,):
+        """
+        Get the list of device on topology
+
+        :return:
+        """
         Test.devices = Test.topo.get_devices()
         log.info(Test.devices)
 
 
     def test_get_device(self):
+        """
+        Get a device from topology
+
+        """
         Test.device = Test.topo.get_device("R1")
         log.info(Test.device.name)
         log.info(Test.device.alias)
 
 
     def test_get_interfaces(self):
+        """
+        Get interfaces from topology
+
+        """
         interfaces = Test.device.get_interfaces()
         log.info(interfaces)
 
 
     def test_get_interfaces_peer(self):
+        """
+        Get interfaces from topology for a given peer
+
+        """
         Test.peer = Test.topo.get_router("R2")
         interfaces = Test.device.get_interfaces(peer=Test.peer)
         log.info(interfaces)
 
 
     def test_get_links(self):
+        """
+        Get links from topology
+
+        """
         links = Test.device.get_links()
         log.info(links)
 
 
     def test_get_handle(self):
+        """
+        Get handles from topology
+
+        """
         cli_handle = Test.device.get_cli_handle()
         log.info(cli_handle)
 
