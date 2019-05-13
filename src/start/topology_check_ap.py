@@ -12,6 +12,7 @@ class TestTopology:
         """
         Get the list of device on topology
 
+
         :return:
         """
         Test.devices = Test.topo.get_devices()
@@ -22,6 +23,7 @@ class TestTopology:
         """
         Get a device from topology
 
+        :return:
         """
         Test.device = Test.topo.get_device("R1")
         log.info(Test.device.name)
@@ -32,6 +34,7 @@ class TestTopology:
         """
         Get interfaces from topology
 
+        :return:
         """
         interfaces = Test.device.get_interfaces()
         log.info(interfaces)
@@ -41,6 +44,7 @@ class TestTopology:
         """
         Get interfaces from topology for a given peer
 
+        :return:
         """
         Test.peer = Test.topo.get_router("R2")
         interfaces = Test.device.get_interfaces(peer=Test.peer)
@@ -51,6 +55,7 @@ class TestTopology:
         """
         Get links from topology
 
+        :return:
         """
         links = Test.device.get_links()
         log.info(links)
@@ -60,6 +65,7 @@ class TestTopology:
         """
         Get handles from topology
 
+        :return:
         """
         cli_handle = Test.device.get_cli_handle()
         log.info(cli_handle)
